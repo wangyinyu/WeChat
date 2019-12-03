@@ -1,6 +1,6 @@
 # vuedemo02
 
-> A Vue.js project
+> 用vue写一个微信项目
 
 ## Build Setup
 
