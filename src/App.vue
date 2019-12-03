@@ -1,28 +1,43 @@
 <template>
   <div id="app">
-  <input type="text" v-model="msg"> <button @click="add()">添加数据</button>
-  <h2>{{msg}}</h2>
+    <h2>{{msg}}</h2>
+  <input type="text" v-model="inputVal"> <button @click="add()">添加数据</button>
   <br>
+  <h2>代办项</h2>
   <ul>
-    <li v-for="(item,key) in list">
-      {{item}}<button @click="remove(key)">删除数据</button>
+    <li v-for="(item,key) in list" v-if="!item.checked">
+      <input type="checkbox" v-model="item.checked">---{{item.title}}----<button @click="remove(key)">删除数据</button>
+    </li>
+  </ul>
+  <h2>完成项</h2>
+  <ul>
+    <li v-for="item in list" v-if="item.checked">
+      <input type="checkbox" v-model="item.checked">---{{item.title}}----<button @click="remove(key)">删除数据</button>
     </li>
   </ul>
   </div>
 </template>
-
 <script>
 export default {
   name: 'app',
   data () {
     return {
       msg: 'vue学习开始',
+      inputVal:'',
       list:[]
     }
   },
   methods:{
     add(){
-        this.list.push(this.msg)
+		if(this.inputVal == ''){
+			alert('没有输入数据哦~');
+		}else{
+			this.list.push({
+        'title' : this.inputVal,
+        'checked' : false
+      });
+      this.inputVal = '';
+		}
     },
     remove(key){
         this.list.splice(key,1);
