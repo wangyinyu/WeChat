@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <h2>{{msg}}</h2>
-  <input type="text" v-model="inputVal"> <button @click="add()">添加数据</button>
+  <input type="text" v-model="inputVal" @keydown="add($event)"> <button @click="add(13)">添加数据</button>
   <br>
   <h2>代办项</h2>
   <ul>
@@ -28,16 +28,17 @@ export default {
     }
   },
   methods:{
-    add(){
-		if(this.inputVal == ''){
-			alert('没有输入数据哦~');
-		}else{
-			this.list.push({
-        'title' : this.inputVal,
-        'checked' : false
-      });
-      this.inputVal = '';
-		}
+    add(key){
+      console.log(key);
+      if (key==13 || key.keyCode==13){
+        if(this.inputVal != ''){
+          this.list.push({
+            'title' : this.inputVal,
+            'checked' : false
+          });
+          this.inputVal = '';
+        }
+      }
     },
     remove(key){
         this.list.splice(key,1);
