@@ -6,18 +6,20 @@
   <h2>代办项</h2>
   <ul>
     <li v-for="(item,key) in list" v-if="!item.checked">
-      <input type="checkbox" v-model="item.checked">---{{item.title}}----<button @click="remove(key)">删除数据</button>
+      <input type="checkbox" v-model="item.checked" @change="saveList()">---{{item.title}}----<button @click="remove(key)">删除数据</button>
     </li>
   </ul>
   <h2>完成项</h2>
   <ul>
     <li v-for="item in list" v-if="item.checked">
-      <input type="checkbox" v-model="item.checked">---{{item.title}}----<button @click="remove(key)">删除数据</button>
+      <input type="checkbox" v-model="item.checked" @change="saveList()">---{{item.title}}----<button @click="remove(key)">删除数据</button>
     </li>
   </ul>
   </div>
 </template>
 <script>
+  import storage from './model/storage.js';
+  console.log(storage);
 export default {
   name: 'app',
   data () {
@@ -36,12 +38,23 @@ export default {
             'title' : this.inputVal,
             'checked' : false
           });
+          storage.set('list',this.list);
           this.inputVal = '';
         }
       }
     },
     remove(key){
         this.list.splice(key,1);
+        storage.set('list',this.list);
+    },
+    saveList(){
+      storage.set('list',this.list);
+    },
+  },
+  mounted(){
+    var list = storage.get('list');
+    if(list){
+      this.list = list;
     }
   }
 }
